@@ -3,18 +3,19 @@ from PIL import ImageTk, Image
 
 
 field = [None, None, None, None, None, None, None, None, None] # O = 0, X = 1
-centers = [(423, 200), (565, 200), (707, 200), (423, 342), (565, 342), (707, 342), (423, 484), (565, 484), (707, 484)]
+centers = [(200, 100), (300, 100), (400, 100), (200, 200), (300, 200), (400, 200), (200, 300), (300, 300), (400, 300)]
 current_move = 1
 game_ended = False
 labels = []
 
 root = Tk()
-c = Canvas(width=1440, height=900)
 root.resizable(width=False, height=False)
+c = Canvas(width=700, height=450)
 c.pack(fill=BOTH)
 
-image = ImageTk.PhotoImage(file='images/Dlya_Yarika_chisty_fon.jpg')
-c.create_image(1, 1, image=image, anchor=NW)
+background_img = Image.open('images/Dlya_Yarika_chisty_fon.jpg').resize((700, 450))
+background_img = ImageTk.PhotoImage(background_img)
+c.create_image(0, 0, image=background_img, anchor=NW)
 
 
 def click(mv):
@@ -25,18 +26,17 @@ def click(mv):
 
 
 def restart():
-    global field
-    global game_ended
+    global field, game_ended
     c.delete('object')
     field = [None, None, None, None, None, None, None, None, None]
     game_ended = False
     current_move = 1
     for i in range(9):
-        buttons[i].place(x=centers[i][0], y=centers[i][1], height=141, width=141)
+        buttons[i].place(x=centers[i][0], y=centers[i][1], height=100, width=100)
     for i in labels:
         i.place_forget()
     move_label = Label(image=move_x_img)
-    move_label.place(x=396, y=50, width=481, height=120)
+    move_label.place(x=175, y=3, width=350, height=97)
 
 
 buttons = []
@@ -45,16 +45,16 @@ x_images = []
 o_images = []
 
 for i in range(9):
-    img = Image.open(f'images/{i+1}.jpg').resize((141, 141))
+    img = Image.open(f'images/{i+1}.jpg').resize((100, 100))
     images.append(ImageTk.PhotoImage(img))
-    img = Image.open(f'images/x{i+1}.jpg').resize((141, 141))
+    img = Image.open(f'images/x{i+1}.jpg').resize((100, 100))
     x_images.append(ImageTk.PhotoImage(img))
-    img = Image.open(f'images/o{i+1}.jpg').resize((141, 141))
+    img = Image.open(f'images/o{i+1}.jpg').resize((100, 100))
     o_images.append(ImageTk.PhotoImage(img))
 
 for i in range(9):
     buttons.append(Button(text='', bd=0, image=images[i]))
-    buttons[i].place(x=centers[i][0], y=centers[i][1], height=141, width=141)
+    buttons[i].place(x=centers[i][0], y=centers[i][1], height=100, width=100)
 
 buttons[0].config(command=lambda: click(0))
 buttons[1].config(command=lambda: click(1))
@@ -66,55 +66,56 @@ buttons[6].config(command=lambda: click(6))
 buttons[7].config(command=lambda: click(7))
 buttons[8].config(command=lambda: click(8))
 
-close_img = Image.open(f'images/vykhod.jpg').resize((126, 126))
+close_img = Image.open('images/vykhod.jpg').resize((100, 100))
 close_img = ImageTk.PhotoImage(close_img)
-restart_img = Image.open(f'images/restart.jpg').resize((126, 126))
+restart_img = Image.open('images/restart.jpg').resize((100, 100))
 restart_img = ImageTk.PhotoImage(restart_img)
 
 restart_btn = Button(text='', command=restart, image=restart_img, bd=0)
-restart_btn.place(x=1000, y=342, height=126, width=126)
+restart_btn.place(x=550, y=200, height=100, width=100)
 close = Button(text='', command=root.destroy, image=close_img, bd=0)
-close.place(x=150, y=342, height=126, width=126)
+close.place(x=50, y=200, height=100, width=100)
 
-move_o_img = Image.open(f'images/khod_o.jpg').resize((481, 120))
+move_o_img = Image.open('images/khod_o.jpg').resize((350, 97))
 move_o_img = ImageTk.PhotoImage(move_o_img)
-move_x_img = Image.open(f'images/khod_x.jpg').resize((481, 120))
+move_x_img = Image.open('images/khod_x.jpg').resize((350, 97))
 move_x_img = ImageTk.PhotoImage(move_x_img)
-win_o_img = Image.open(f'images/vyigral_o.jpg').resize((481, 120))
+win_o_img = Image.open('images/vyigral_o.jpg').resize((350, 97))
 win_o_img = ImageTk.PhotoImage(win_o_img)
-win_x_img = Image.open(f'images/vyigral_x.jpg').resize((481, 120))
+win_x_img = Image.open('images/vyigral_x.jpg').resize((350, 97))
 win_x_img = ImageTk.PhotoImage(win_x_img)
+draw_img = Image.open('images/nichya.jpg').resize((350, 97))
+draw_img = ImageTk.PhotoImage(draw_img)
 
 move_label = Label(image=move_x_img)
-move_label.place(x=396, y=50, width=481, height=120)
+move_label.place(x=175, y=3, width=350, height=97)
 
 
 def move(cell):
-    global current_move
-    global game_ended
+    global current_move, game_ended
     if current_move == 1:
         field[cell] = 1
         draw_x(cell)
         current_move = 0
         move_label = Label(image=move_o_img)
-        move_label.place(x=396, y=50, width=481, height=120)
+        move_label.place(x=175, y=3, width=350, height=97)
     elif current_move == 0:
         field[cell] = 0
         draw_o(cell)
         current_move = 1
         move_label = Label(image=move_x_img)
-        move_label.place(x=396, y=50, width=481, height=120)
+        move_label.place(x=175, y=3, width=350, height=97)
     if win(field) == 0:
         move_label = Label(image=win_o_img)
-        move_label.place(x=396, y=50, width=481, height=120)
+        move_label.place(x=175, y=3, width=350, height=97)
         game_ended = True
     elif win(field) == 1:
         move_label = Label(image=win_x_img)
-        move_label.place(x=396, y=50, width=481, height=120)
+        move_label.place(x=175, y=3, width=350, height=97)
         game_ended = True
     elif win(field) == 2:
-        move_label = Label(text='ничья')
-        move_label.place(x=396, y=50, width=481, height=120)
+        move_label = Label(image=draw_img)
+        move_label.place(x=175, y=3, width=350, height=97)
         game_ended = True
 
 
@@ -133,17 +134,15 @@ def win(field):
 
 
 def draw_x(number):
-    global centers
-    global labels
+    global centers, labels
     labels.append(Label(image=x_images[number]))
-    labels[-1].place(x=centers[number][0], y=centers[number][1], width=141, height=141)
+    labels[-1].place(x=centers[number][0], y=centers[number][1], width=100, height=100)
 
 
 def draw_o(number):
-    global centers
-    global labels
+    global centers, labels
     labels.append(Label(image=o_images[number]))
-    labels[-1].place(x=centers[number][0], y=centers[number][1], width=141, height=141)
+    labels[-1].place(x=centers[number][0], y=centers[number][1], width=100, height=100)
 
 
 root.mainloop()
