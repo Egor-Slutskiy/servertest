@@ -1,10 +1,17 @@
-import socket
+import asyncio
 
-sock = socket.socket()
-sock.connect(('localhost', 9090))
-sock.send('hello, world!'.encode())
 
-data = sock.recv(1024)
-sock.close()
+async def tcp_echo_client():
+    reader, writer = await asyncio.open_connection(
+        '127.0.0.1', 8888)
 
-print(data)
+    while True:
+
+        msg = input()
+        print(f'Send: {msg!r}')
+        writer.write(msg.encode())
+
+        data = await reader.read(100)
+        print(f'Received: {data.decode()!r}')
+
+asyncio.run(tcp_echo_client())
