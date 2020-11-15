@@ -25,9 +25,9 @@ def msg_scan():
     msg = input()
     if msg and msg != "!DISCONNECT":
         send(msg)
-        msg_scan()
     if msg == "!DISCONNECT":
         send(DISCONNECT_MESSAGE)
+    msg_scan()
 
 
 msg_scan()
