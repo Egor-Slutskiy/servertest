@@ -1,17 +1,33 @@
-import asyncio
+import socket
+
+HEADER = 64
+PORT = 5050
+FORMAT = 'utf-8'
+DISCONNECT_MESSAGE = "!DISCONNECT"
+SERVER = "192.168.0.14"
+ADDR = (SERVER, PORT)
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(ADDR)
 
 
-async def tcp_echo_client():
-    reader, writer = await asyncio.open_connection(
-        '127.0.0.1', 8888)
+def send(msg):
+    message = msg.encode(FORMAT)
+    msg_length = len(message)
+    send_length = str(msg_length).encode(FORMAT)
+    send_length += b' ' * (HEADER - len(send_length))
+    client.send(send_length)
+    client.send(message)
+    print(client.recv(2048).decode(FORMAT))
 
-    while True:
 
-        msg = input()
-        print(f'Send: {msg!r}')
-        writer.write(msg.encode())
+def msg_scan():
+    msg = input()
+    if msg and msg != "!DISCONNECT":
+        send(msg)
+        msg_scan()
+    if msg == "!DISCONNECT":
+        send(DISCONNECT_MESSAGE)
 
-        data = await reader.read(100)
-        print(f'Received: {data.decode()!r}')
 
-asyncio.run(tcp_echo_client())
+msg_scan()
