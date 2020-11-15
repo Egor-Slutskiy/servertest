@@ -7,13 +7,14 @@ centers = [(200, 100), (300, 100), (400, 100), (200, 200), (300, 200), (400, 200
 current_move = 1
 game_ended = False
 labels = []
+root_path = 'C:/Users/Ярослав/Desktop/Универ/Текущие предметы/Практикум/tictactoe/'
 
 root = Tk()
 root.resizable(width=False, height=False)
 c = Canvas(width=700, height=450)
 c.pack(fill=BOTH)
 
-background_img = Image.open('images/Dlya_Yarika_chisty_fon.jpg').resize((700, 450))
+background_img = Image.open(f'{root_path}images/Dlya_Yarika_chisty_fon.jpg').resize((700, 450))
 background_img = ImageTk.PhotoImage(background_img)
 c.create_image(0, 0, image=background_img, anchor=NW)
 
@@ -45,11 +46,11 @@ x_images = []
 o_images = []
 
 for i in range(9):
-    img = Image.open(f'images/{i+1}.jpg').resize((100, 100))
+    img = Image.open(f'{root_path}images/{i+1}.jpg').resize((100, 100))
     images.append(ImageTk.PhotoImage(img))
-    img = Image.open(f'images/x{i+1}.jpg').resize((100, 100))
+    img = Image.open(f'{root_path}images/x{i+1}.jpg').resize((100, 100))
     x_images.append(ImageTk.PhotoImage(img))
-    img = Image.open(f'images/o{i+1}.jpg').resize((100, 100))
+    img = Image.open(f'{root_path}images/o{i+1}.jpg').resize((100, 100))
     o_images.append(ImageTk.PhotoImage(img))
 
 for i in range(9):
@@ -66,9 +67,9 @@ buttons[6].config(command=lambda: click(6))
 buttons[7].config(command=lambda: click(7))
 buttons[8].config(command=lambda: click(8))
 
-close_img = Image.open('images/vykhod.jpg').resize((100, 100))
+close_img = Image.open(f'{root_path}images/vykhod.jpg').resize((100, 100))
 close_img = ImageTk.PhotoImage(close_img)
-restart_img = Image.open('images/restart.jpg').resize((100, 100))
+restart_img = Image.open(f'{root_path}images/restart.jpg').resize((100, 100))
 restart_img = ImageTk.PhotoImage(restart_img)
 
 restart_btn = Button(text='', command=restart, image=restart_img, bd=0)
@@ -76,15 +77,15 @@ restart_btn.place(x=550, y=200, height=100, width=100)
 close = Button(text='', command=root.destroy, image=close_img, bd=0)
 close.place(x=50, y=200, height=100, width=100)
 
-move_o_img = Image.open('images/khod_o.jpg').resize((350, 97))
+move_o_img = Image.open(f'{root_path}images/khod_o.jpg').resize((350, 97))
 move_o_img = ImageTk.PhotoImage(move_o_img)
-move_x_img = Image.open('images/khod_x.jpg').resize((350, 97))
+move_x_img = Image.open(f'{root_path}images/khod_x.jpg').resize((350, 97))
 move_x_img = ImageTk.PhotoImage(move_x_img)
-win_o_img = Image.open('images/vyigral_o.jpg').resize((350, 97))
+win_o_img = Image.open(f'{root_path}images/vyigral_o.jpg').resize((350, 97))
 win_o_img = ImageTk.PhotoImage(win_o_img)
-win_x_img = Image.open('images/vyigral_x.jpg').resize((350, 97))
+win_x_img = Image.open(f'{root_path}images/vyigral_x.jpg').resize((350, 97))
 win_x_img = ImageTk.PhotoImage(win_x_img)
-draw_img = Image.open('images/nichya.jpg').resize((350, 97))
+draw_img = Image.open(f'{root_path}images/nichya.jpg').resize((350, 97))
 draw_img = ImageTk.PhotoImage(draw_img)
 
 move_label = Label(image=move_x_img)
