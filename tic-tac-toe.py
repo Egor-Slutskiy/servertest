@@ -13,7 +13,7 @@ c = Canvas(width=1440, height=900)
 root.resizable(width=False, height=False)
 c.pack(fill=BOTH)
 
-image = ImageTk.PhotoImage(file='C:/Users/Floppy/Desktop/tictactoe/images/Dlya_Yarika_chisty_fon.jpg')
+image = ImageTk.PhotoImage(file='images/Dlya_Yarika_chisty_fon.jpg')
 c.create_image(1, 1, image=image, anchor=NW)
 
 
@@ -45,11 +45,11 @@ x_images = []
 o_images = []
 
 for i in range(9):
-    img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/{i+1}.jpg').resize((141, 141))
+    img = Image.open(f'images/{i+1}.jpg').resize((141, 141))
     images.append(ImageTk.PhotoImage(img))
-    img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/x{i+1}.jpg').resize((141, 141))
+    img = Image.open(f'images/x{i+1}.jpg').resize((141, 141))
     x_images.append(ImageTk.PhotoImage(img))
-    img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/o{i+1}.jpg').resize((141, 141))
+    img = Image.open(f'images/o{i+1}.jpg').resize((141, 141))
     o_images.append(ImageTk.PhotoImage(img))
 
 for i in range(9):
@@ -66,9 +66,9 @@ buttons[6].config(command=lambda: click(6))
 buttons[7].config(command=lambda: click(7))
 buttons[8].config(command=lambda: click(8))
 
-close_img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/vykhod.jpg').resize((126, 126))
+close_img = Image.open(f'images/vykhod.jpg').resize((126, 126))
 close_img = ImageTk.PhotoImage(close_img)
-restart_img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/restart.jpg').resize((126, 126))
+restart_img = Image.open(f'images/restart.jpg').resize((126, 126))
 restart_img = ImageTk.PhotoImage(restart_img)
 
 restart_btn = Button(text='', command=restart, image=restart_img, bd=0)
@@ -76,13 +76,13 @@ restart_btn.place(x=1000, y=342, height=126, width=126)
 close = Button(text='', command=root.destroy, image=close_img, bd=0)
 close.place(x=150, y=342, height=126, width=126)
 
-move_o_img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/khod_o.jpg').resize((481, 120))
+move_o_img = Image.open(f'images/khod_o.jpg').resize((481, 120))
 move_o_img = ImageTk.PhotoImage(move_o_img)
-move_x_img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/khod_x.jpg').resize((481, 120))
+move_x_img = Image.open(f'images/khod_x.jpg').resize((481, 120))
 move_x_img = ImageTk.PhotoImage(move_x_img)
-win_o_img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/vyigral_o.jpg').resize((481, 120))
+win_o_img = Image.open(f'images/vyigral_o.jpg').resize((481, 120))
 win_o_img = ImageTk.PhotoImage(win_o_img)
-win_x_img = Image.open(f'C:/Users/Floppy/Desktop/tictactoe/images/vyigral_x.jpg').resize((481, 120))
+win_x_img = Image.open(f'images/vyigral_x.jpg').resize((481, 120))
 win_x_img = ImageTk.PhotoImage(win_x_img)
 
 move_label = Label(image=move_x_img)
