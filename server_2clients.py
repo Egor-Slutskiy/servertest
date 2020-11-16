@@ -29,9 +29,10 @@ def handle_client(conn, addr):
                 msg = conn.recv(msg_length).decode(FORMAT)  # декодит сообщение в стринг
                 if msg == DISCONNECT_MESSAGE:
                     connected = False
-
+                    del CONN_LIST[CONN_LIST.index(conn)]
+                    del CONNECTED_LIST[CONNECTED_LIST.index(addr)]
                 print(f"[{addr}] {msg}")
-                conn.send(f"Msg received: {msg.upper()}".encode(FORMAT))
+                #conn.send(f"Msg received: {msg.upper()}".encode(FORMAT))
                 if len(CONN_LIST) == 2:
                     if CONN_LIST.index(conn) == 0:
                         CONN_LIST[1].send(f'incoming message: {msg}'.encode(FORMAT))
@@ -41,8 +42,11 @@ def handle_client(conn, addr):
 
         conn.close()
         print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+
     except WindowsError:
         print(f"[ERROR] {addr} client crash")
+        #del CONN_LIST[CONN_LIST.index(conn)]
+        #del CONNECTED_LIST[CONNECTED_LIST.index(addr)]
 
 
 # функция запуска сервера на прослушивание
@@ -55,7 +59,6 @@ def start():
 
         CONNECTED_LIST.append(addr)
         CONN_LIST.append(conn)
-        print(CONN_LIST)
         print(CONNECTED_LIST)
         thread = threading.Thread(target=handle_client,
                                   args=(conn, addr))  # какая-то хуерга которая передает клиента в функцию выше

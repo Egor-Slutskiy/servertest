@@ -1,4 +1,5 @@
 import socket
+import threading
 
 HEADER = 64
 PORT = 5050
@@ -22,9 +23,22 @@ def send(msg):
     print(client.recv(2048).decode(FORMAT))
 
 
+def msg_scan():
+    msg = input('your message: ')
+    if msg and msg != "!DISCONNECT":
+        send(msg)
+    if msg == "!DISCONNECT":
+        send(DISCONNECT_MESSAGE)
+    msg_scan()
+
+
 def server_scan():
     print(client.recv(2048).decode(FORMAT))
     server_scan()
 
 
-server_scan()
+server_scan_thread = threading.Thread(target=server_scan)
+msg_scan_thread = threading.Thread(target=msg_scan)
+
+server_scan_thread.start()
+msg_scan_thread.start()
