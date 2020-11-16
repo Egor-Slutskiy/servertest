@@ -1,5 +1,5 @@
 import socket
-import time
+import threading
 
 HEADER = 64
 PORT = 5050
@@ -12,30 +12,37 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
 
-# функция отправки на сервер
-def send_msg(msg):
-    client.send(msg.encode(FORMAT))
-    print(client.recv(HEADER).decode(FORMAT))
+# пока коммитил понял что говно и надо переделать
+def send(msg):
+    message = msg.encode(FORMAT)
+    client.send(message)
+    print(client.recv(2048).decode(FORMAT))
 
 
 # функция которая ждет ввод и отправляет на сервер
-def input_scan():
-    msg = input()
-    if msg and msg != "!DISCONNECT":
-        send_msg(msg)
-    else:
-        send_msg('ping')
-    if msg == "!DISCONNECT":
-        send_msg(DISCONNECT_MESSAGE)
-    input_scan()
+def msg_scan():
+    while True:
+        msg = input()
+        server_msg = client.recv(2048).decode(FORMAT)
+        if msg and msg != "!DISCONNECT":
+            send(msg)
+        elif msg == "!DISCONNECT":
+            send(DISCONNECT_MESSAGE)
+        elif server_msg:
+            print(server_msg)
 
 
 def server_scan():
     while True:
-        msg = 'ping'
-        send_msg(msg)
-        time.sleep(1)
+        msg = client.recv(2048).decode(FORMAT)
+        if msg:
+            print(msg)
 
 
-input_scan()
-server_scan()
+def start():
+        thread = threading.Thread(target=msg_scan)
+        thread.start()
+
+
+start()
+#server_scan()
