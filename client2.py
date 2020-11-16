@@ -22,14 +22,9 @@ def send(msg):
     print(client.recv(2048).decode(FORMAT))
 
 
-# функция которая ждет ввод и отправляет на сервер
-def msg_scan():
-    msg = input()
-    if msg and msg != "!DISCONNECT":
-        send(msg)
-    if msg == "!DISCONNECT":
-        send(DISCONNECT_MESSAGE)
-    msg_scan()
+def server_scan():
+    print(client.recv(2048).decode(FORMAT))
+    server_scan()
 
 
-msg_scan()
+server_scan()
