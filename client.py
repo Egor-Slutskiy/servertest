@@ -11,6 +11,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
 
+# пока коммитил понял что говно и надо переделать
 def send(msg):
     message = msg.encode(FORMAT)
     msg_length = len(message)
@@ -21,6 +22,7 @@ def send(msg):
     print(client.recv(2048).decode(FORMAT))
 
 
+# функция которая ждет ввод и отправляет на сервер
 def msg_scan():
     msg = input()
     if msg and msg != "!DISCONNECT":
