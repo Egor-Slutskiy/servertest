@@ -26,11 +26,20 @@ def handle_client(conn, addr):
                     del CONN_LIST[CONN_LIST.index(conn)]
                     del CONNECTED_LIST[CONNECTED_LIST.index(addr)]
                 print(f"[{addr}] {msg}")
+                if len(CONN_LIST) == 1:
+                    CONN_LIST[0].send('play x'.encode(FORMAT))
+                if len(CONN_LIST) == 2:
+                    CONN_LIST[1].send('play o'.encode(FORMAT))
                 if len(CONN_LIST) == 2:
                     if CONN_LIST.index(conn) == 0:
                         CONN_LIST[1].send(msg.encode(FORMAT))
                     elif CONN_LIST.index(conn) == 1:
                         CONN_LIST[0].send(msg.encode(FORMAT))
+                if msg == 'my move is':
+                    if CONN_LIST.index(conn) == 0:
+                        CONN_LIST[0].send('play x'.encode(FORMAT))
+                    else:
+                        CONN_LIST[1].send('play o'.encode(FORMAT))
         conn.close()
     except WindowsError:
         print(f"[ERROR] {addr} client crash")

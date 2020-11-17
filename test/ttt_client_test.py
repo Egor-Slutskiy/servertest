@@ -16,6 +16,7 @@ client.connect(ADDR)
 field = [None, None, None, None, None, None, None, None, None] # O = 0, X = 1
 centers = [(200, 100), (300, 100), (400, 100), (200, 200), (300, 200), (400, 200), (200, 300), (300, 300), (400, 300)]
 current_move = 1
+your_move = 3
 game_ended = False
 labels = []
 
@@ -31,12 +32,14 @@ c.pack(fill=BOTH)
 
 
 def click(mv, isServer):
-    if not game_ended:
+    if not game_ended and (current_move == your_move or isServer):
         mv=int(mv)
         move(mv)
         buttons[mv].place_forget()
         if not isServer:
             client.send(f'click {mv}'.encode(FORMAT))
+    if not game_ended and your_move == 3:
+        client.send('my move is'.encode(FORMAT))
 
 
 def restart(isServer):
@@ -60,7 +63,7 @@ def restart_bt():
 
 
 def move(cell):
-    global current_move, game_ended
+    global current_move, game_ended, your_move
     if current_move == 1:
         field[cell] = 1
         draw_x(cell)
@@ -123,6 +126,11 @@ def exit_bt():
     exit(False)
 
 
+def your_move_setter(arg):
+    global your_move
+    your_move = arg
+
+
 def server_scan():
     while True:
         msg = client.recv(HEADER).decode(FORMAT)
@@ -137,6 +145,12 @@ def server_scan():
 
         if msg == '!DISCONNECT':
             exit(isServer)
+
+        if msg == 'play x':
+            your_move_setter(1)
+
+        if msg == 'play o':
+            your_move_setter(0)
 
 
 background_img = Image.open(f'images/Dlya_Yarika_chisty_fon.jpg').resize((700, 450))
