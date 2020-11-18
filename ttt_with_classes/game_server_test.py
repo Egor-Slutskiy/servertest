@@ -28,9 +28,9 @@ def handle_client(conn):
                     CONNECTED_LIST[1].send_msg('play o')
                 if len(CONNECTED_LIST) == 2:
                     if CONNECTED_LIST.index(conn) == 0:
-                        CONNECTED_LIST[1].send(msg)
+                        CONNECTED_LIST[1].send_msg(msg)
                     elif CONNECTED_LIST.index(conn) == 1:
-                        CONNECTED_LIST[0].send(msg)
+                        CONNECTED_LIST[0].send_msg(msg)
                 if msg == 'my move is':
                     if CONNECTED_LIST.index(conn) == 0:
                         CONNECTED_LIST[0].send_msg('play x')

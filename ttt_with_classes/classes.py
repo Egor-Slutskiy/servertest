@@ -19,7 +19,7 @@ class Connection():
 
     def get_msg(self):
         msg = self.connection.recv(self.header).decode(self.format)
-        print(f"[f'{self.address}:{self.port}'] {msg}")
+        print(f"['{self.address}:{self.port}'] {msg}")
         return msg
 
     def send_msg(self, msg):
